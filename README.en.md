@@ -65,7 +65,7 @@ Since this package is distributed in prebuilt form, installation depends on netw
 
 | @karinjs/node-pty | @homebridge/node-pty-prebuilt-multiarch |
 | ----------------- | --------------------------------------- |
-| 1.0.1             | 0.11.14                                 |
+| 1.0.2             | 0.11.14                                 |
 
 ## Upstream Projects
 
