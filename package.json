@@ -1,0 +1,55 @@
+{
+  "name": "@karinjs/node-pty",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "description": "node-pty without compilation",
+  "keywords": [
+    "node",
+    "nodejs",
+    "pty",
+    "terminal",
+    "shell",
+    "process",
+    "spawn"
+  ],
+  "homepage": "https://github.com/KarinJS/node-pty",
+  "bugs": {
+    "url": "https://github.com/KarinJS/node-pty/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KarinJS/node-pty.git"
+  },
+  "license": "MIT",
+  "author": "shijin",
+  "scripts": {
+    "build": "tsup --tsconfig tsconfig.json --config tsup.config.ts",
+    "download": "tsx src/index.ts"
+  },
+  "files": [
+    "lib",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@types/decompress": "^4.2.7",
+    "@types/node": "20",
+    "axios": "^1.8.2",
+    "decompress": "^4.2.1",
+    "neostandard": "^0.12.1",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
