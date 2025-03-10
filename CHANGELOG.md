@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/KarinJS/node-pty/compare/v1.0.2...v1.0.3) (2025-03-10)
+
+
+### Bug Fixes
+
+* add init ([1d2da0d](https://github.com/KarinJS/node-pty/commit/1d2da0df9b5d4a32069aaf4c3b344c5570dbdea0))
+
 ## [1.0.2](https://github.com/KarinJS/node-pty/compare/v1.0.1...v1.0.2) (2025-03-10)
 
 
