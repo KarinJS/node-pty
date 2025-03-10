@@ -24,7 +24,8 @@
   "author": "shijin",
   "scripts": {
     "build": "tsup --tsconfig tsconfig.json --config tsup.config.ts",
-    "download": "tsx src/index.ts"
+    "download": "tsx src/index.ts",
+    "pub": "npm publish --access public"
   },
   "files": [
     "lib",
