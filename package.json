@@ -2,7 +2,7 @@
   "name": "@karinjs/node-pty",
   "main": "index.js",
   "types": "lib/index.d.ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "node-pty without compilation",
   "keywords": [
     "node",

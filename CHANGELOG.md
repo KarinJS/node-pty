@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/KarinJS/node-pty/compare/v1.0.3...v1.0.4) (2025-03-10)
+
+
+### Bug Fixes
+
+* build minify true ([cfda0c6](https://github.com/KarinJS/node-pty/commit/cfda0c6365b7b26fa72acae1bb212b214fa4e21a))
+
 ## [1.0.3](https://github.com/KarinJS/node-pty/compare/v1.0.2...v1.0.3) (2025-03-10)
 
 
