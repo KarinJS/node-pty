@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/KarinJS/node-pty/compare/v1.0.0...v1.0.1) (2025-03-10)
+
+
+### Bug Fixes
+
+* bun乱加的peerDependencies ([199e285](https://github.com/KarinJS/node-pty/commit/199e285ee51fafb7e0b562fd03180eef1eb98384))
+
 ## 1.0.0 (2025-03-10)
 
 
