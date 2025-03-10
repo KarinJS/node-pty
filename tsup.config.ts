@@ -13,8 +13,8 @@ export const options: Options = {
   clean: true, // 是否清理输出目录
   dts: false, // 是否生成 .d.ts 文件
   outDir: 'lib/scripts', // 输出目录
-  treeshake: false, // 树摇优化
-  minify: false, // 压缩代码
+  treeshake: true, // 树摇优化
+  minify: true, // 压缩代码
   external: [],
   ignoreWatch: [],
   noExternal: ['decompress'],
