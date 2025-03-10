@@ -37,7 +37,7 @@ jobs:
       - run: npm run download
         if: ${{ steps.release.outputs.release_created }}
       # 构建输出
-      - run: npm run download
+      - run: npm run build
         if: ${{ steps.release.outputs.release_created }}
       # 增加install script
       - run: npm pkg set "scripts.install"="node scripts/index.js"
