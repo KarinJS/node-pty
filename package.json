@@ -1,6 +1,6 @@
 {
   "name": "@karinjs/node-pty",
-  "main": "lib/index.js",
+  "main": "index.js",
   "types": "lib/index.d.ts",
   "version": "1.0.2",
   "description": "node-pty without compilation",
@@ -23,10 +23,15 @@
   },
   "license": "MIT",
   "author": "shijin",
+  "bin": {
+    "pty": "./lib/scripts/main.js"
+  },
   "scripts": {
-    "build": "tsup --tsconfig tsconfig.json --config tsup.config.ts",
+    "build": "tsc  && tsup --tsconfig tsconfig.json --config tsup.config.ts",
     "download": "tsx src/index.ts",
-    "pub": "npm publish --access public"
+    "test:install": "tsx src/install/index.ts",
+    "pub": "npm publish --access public",
+    "test": "node test.mjs"
   },
   "files": [
     "lib",

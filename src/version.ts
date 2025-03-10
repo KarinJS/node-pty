@@ -6,3 +6,5 @@ export const PKG_NAME = 'node-pty-prebuilt-multiarch'
 export const NPM_PKG_NAME = '@homebridge/node-pty-prebuilt-multiarch'
 /** 当前包名 */
 export const _PKG_NAME = '@karinjs/node-pty'
+/** 记录当前版本的json文件名称 */
+export const VERSION_JSON_NAME = 'version.json'

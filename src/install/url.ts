@@ -22,7 +22,7 @@ const getHostMirrorUrl = (pkgName: string) => {
  * @param fileName 文件名
  */
 const getGithubUrl = (fileName: string) => {
-  return `https://github.com/homebridge/${PKG_NAME}/releases/download/${VERSION}/${fileName}`
+  return `https://github.com/homebridge/${PKG_NAME}/releases/download/v${VERSION}/${fileName}`
 }
 
 /**

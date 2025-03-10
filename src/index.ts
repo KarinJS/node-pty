@@ -27,8 +27,14 @@ const main = async () => {
   const data = fs.readFileSync(dts, 'utf-8')
   fs.writeFileSync(
     path.resolve(lib, 'index.d.ts'),
-    data.replace('@homebridge/node-pty-prebuilt-multiarch', _PKG_NAME)
-  )
+    data
+      .replace('@homebridge/node-pty-prebuilt-multiarch', _PKG_NAME)
+      .replace(new RegExp(`${_PKG_NAME}.*{.*`, 'g'), `${_PKG_NAME}' {
+  /**
+   * Initializes the pty module.
+   */
+  export function init (): Promise<void>
+`))
 
   /**
    * 递归删除lib文件夹下 后缀.map、 test.js后缀的

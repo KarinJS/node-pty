@@ -85,3 +85,53 @@ npm install @homebridge/node-pty-prebuilt-multiarch:@karinjs/node-pty
 - Copyright (c) 2018, oznu (MIT License)
 - Copyright (c) 2023, Homebridge (MIT License)
 
+## 使用示例
+
+```typescript
+import * as os from 'node:os'
+import * as pty from '@karinjs/node-pty'
+
+async function run () {
+  // 可选: 检查并确保二进制文件与当前环境兼容
+  await pty.init()
+  
+  const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash'
+  const ptyProcess = pty.spawn(shell, [], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30,
+    cwd: process.env.HOME,
+    env: process.env
+  })
+
+  ptyProcess.onData((data) => {
+    process.stdout.write(data)
+  })
+
+  ptyProcess.write('ls\r')
+  ptyProcess.resize(100, 40)
+  ptyProcess.write('ls\r')
+}
+
+run()
+```
+
+## API
+
+### 基础 API
+
+本包支持 [@homebridge/node-pty-prebuilt-multiarch](https://github.com/homebridge/node-pty-prebuilt-multiarch) 的所有原有 API。
+
+### 扩展 API
+
+在原有基础上，我们新增了以下 API：
+
+#### init()
+
+`init()` 方法用于检查预编译二进制文件是否与当前 Node.js/Electron 环境兼容。该方法是可选的，主要用于以下场景：
+
+- 更换 Node.js 或 Electron 版本后，需要验证兼容性
+- 需要重新安装适配当前环境的二进制文件
+
+> 提示：如果不想调用 init() 方法，也可以直接运行 `npx pty` 来重新安装适配当前环境的二进制文件。
+

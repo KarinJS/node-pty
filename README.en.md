@@ -83,4 +83,54 @@ This project is open-sourced under the MIT License. Thanks to the contributions 
 - Copyright (c) 2018, Microsoft Corporation (MIT License)
 - Copyright (c) 2018, David Wilson (MIT License)
 - Copyright (c) 2018, oznu (MIT License)
-- Copyright (c) 2023, Homebridge (MIT License) 
+- Copyright (c) 2023, Homebridge (MIT License)
+
+## Usage Example
+
+```typescript
+import * as os from 'node:os'
+import * as pty from '@karinjs/node-pty'
+
+async function run () {
+  // Optional: Check and ensure binary compatibility with current environment
+  await pty.init()
+  
+  const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash'
+  const ptyProcess = pty.spawn(shell, [], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30,
+    cwd: process.env.HOME,
+    env: process.env
+  })
+
+  ptyProcess.onData((data) => {
+    process.stdout.write(data)
+  })
+
+  ptyProcess.write('ls\r')
+  ptyProcess.resize(100, 40)
+  ptyProcess.write('ls\r')
+}
+
+run()
+```
+
+## API
+
+### Base API
+
+This package supports all original APIs from [@homebridge/node-pty-prebuilt-multiarch](https://github.com/homebridge/node-pty-prebuilt-multiarch).
+
+### Extended API
+
+We've added the following new API on top of the original ones:
+
+#### init()
+
+The `init()` method checks if the prebuilt binary is compatible with the current Node.js/Electron environment. This method is optional and is mainly useful in the following scenarios:
+
+- After switching Node.js or Electron versions, to verify compatibility
+- When you need to reinstall binaries compatible with the current environment
+
+> Tip: If you don't want to call the init() method, you can also directly run `npx pty` to reinstall binaries compatible with the current environment. 

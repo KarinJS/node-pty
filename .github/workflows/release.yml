@@ -40,7 +40,7 @@ jobs:
       - run: npm run build
         if: ${{ steps.release.outputs.release_created }}
       # 增加install script
-      - run: npm pkg set "scripts.install"="node lib/scripts/index.js"
+      - run: npm pkg set "scripts.install"="node lib/scripts/main.js"
         if: ${{ steps.release.outputs.release_created }}
       # 删除开发依赖
       - run: npm pkg delete devDependencies
