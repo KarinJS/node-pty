@@ -2,18 +2,23 @@ name: Stage 2 - Validate NPM Package contents
 run-name: Stage 2 - Validate against ${{ github.ref_name }}
 
 on:
-  push:
-    branches: [latest, beta-*.*.*, beta, alpha-*.*.*, alpha]
   pull_request:
     branches: [latest, beta-*.*.*, beta]
     types: [review_requested, ready_for_review]
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Stage 1 - Run prebuild's and Create GitHub and NPM release"]
+    types:
+      - completed
+    branches: [latest, beta-*.*.*, beta, alpha-*.*.*, alpha]
 
 jobs:
   # Validate that node-pty can be installed and ran across all platforms
   determine_tag:
     name: Determine Tag
     runs-on: ubuntu-latest
+    # Only run if the Stage 1 workflow succeeded (for workflow_run) or always for other triggers
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
     steps:
@@ -35,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18.x, 20.x, 22.x, 23.x]
+        node-version: [18.x, 20.x, 22.x, 23.x, 24.x]
         os: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04, macos-latest, macos-15, macos-14, macos-13, windows-latest, windows-2025, windows-2022, windows-2019]
 
     runs-on: ${{ matrix.os }}
@@ -68,4 +73,3 @@ jobs:
 
       - run: |
           echo "::notice::Successfully tested ${{ github.ref_name }} on ${{ matrix.os }} with Node.js ${{ matrix.node-version }}"
-     

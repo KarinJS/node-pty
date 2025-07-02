@@ -4,7 +4,7 @@
   "author": {
     "name": "Microsoft Corporation"
   },
-  "version": "0.12.0",
+  "version": "0.13.0",
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./typings/node-pty.d.ts",
@@ -53,6 +53,9 @@
     "node-addon-api": "^7.1.0",
     "prebuild-install": "^7.1.2"
   },
+  "engines": {
+    "node": ">=18.0.0 <25.0.0"
+  },
   "devDependencies": {
     "@types/mocha": "^7.0.2",
     "@types/node": "12",
@@ -60,12 +63,17 @@
     "@typescript-eslint/parser": "^2.27.0",
     "cross-env": "^5.1.4",
     "eslint": "^6.8.0",
-    "node-abi": "^3.71.0",
     "mocha": "10",
+    "node-abi": "^3.75.0",
     "node-gyp": "=10.1.0",
     "prebuild": "^13.0.1",
     "prebuildify": "^5.0.1",
     "ps-list": "^6.0.0",
     "typescript": "^3.8.3"
+  },
+  "overrides": {
+    "prebuild": {
+      "node-abi": "^3.75.0"
+    }
   }
 }

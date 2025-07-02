@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 . /etc/os-release
 
 cd /node-pty
@@ -31,6 +33,7 @@ echo
 #node .prebuild/build.js
 env JOBS=max node $*
 echo
+
 #env JOBS=max node .prebuild/prebuild.js -t 19.0.0 -t 20.0.0 -t 21.0.0 -t 22.0.0
 #env JOBS=max node .prebuild/prebuildify.js -t 19.0.0 -t 20.0.0 -t 21.0.0 -t 22.0.0
 
