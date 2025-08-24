@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/KarinJS/node-pty/compare/v1.1.0...v1.1.1) (2025-08-24)
+
+
+### Bug Fixes
+
+* build error ([f506fba](https://github.com/KarinJS/node-pty/commit/f506fba2fa87a4050daef5642016b71a3b9d28b0))
+
 ## [1.1.0](https://github.com/KarinJS/node-pty/compare/v1.0.4...v1.1.0) (2025-08-24)
 
 
