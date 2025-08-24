@@ -20,33 +20,23 @@ jobs:
         with:
           # 设置发布类型为 node
           release-type: node
-      # 检出代码
-      - uses: actions/checkout@v4
+
+      - name: 检出代码
+        uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
-      # 设置 Node.js 环境
-      - uses: actions/setup-node@v4
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v2
         with:
-          # 设置 Node.js 版本
-          node-version: 20
-          # 设置 npm 源
-          registry-url: "https://registry.npmjs.org"
-      # 安装依赖
-      - run: npm install
+          version: 9
+          run_install: true
+
+      - name: 编译
+        run: pnpm run build
         if: ${{ steps.release.outputs.release_created }}
-      # 下载编译完成的pty
-      - run: npm run download
-        if: ${{ steps.release.outputs.release_created }}
-      # 构建输出
-      - run: npm run build
-        if: ${{ steps.release.outputs.release_created }}
-      # 增加install script
-      - run: npm pkg set "scripts.install"="node lib/scripts/main.js"
-        if: ${{ steps.release.outputs.release_created }}
-      # 删除开发依赖
-      - run: npm pkg delete devDependencies
-        if: ${{ steps.release.outputs.release_created }}
-      # 发布到 npm
-      - run: npm run pub
+
+      - name: 发布
+        run: pnpm run pub
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}

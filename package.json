@@ -1,56 +1,45 @@
 {
   "name": "@karinjs/node-pty",
-  "main": "index.js",
-  "types": "lib/index.d.ts",
-  "version": "1.0.4",
-  "description": "node-pty without compilation",
-  "keywords": [
-    "node",
-    "nodejs",
-    "pty",
-    "terminal",
-    "shell",
-    "process",
-    "spawn"
-  ],
-  "homepage": "https://github.com/KarinJS/node-pty",
-  "bugs": {
-    "url": "https://github.com/KarinJS/node-pty/issues"
+  "description": "Fork pseudoterminals in Node.JS",
+  "author": {
+    "name": "Microsoft Corporation"
   },
+  "version": "1.0.4",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KarinJS/node-pty.git"
-  },
-  "license": "MIT",
-  "author": "shijin",
-  "bin": {
-    "pty": "./lib/scripts/main.js"
-  },
-  "scripts": {
-    "build": "tsc  && tsup --tsconfig tsconfig.json --config tsup.config.ts",
-    "download": "tsx src/index.ts",
-    "test:install": "tsx src/install/index.ts",
-    "pub": "npm publish --access public",
-    "test": "node test.mjs"
+    "url": "git://github.com/karinjs/node-pty.git"
   },
   "files": [
-    "lib",
-    "LICENSE",
-    "package.json",
-    "README.md"
+    "dist"
   ],
-  "devDependencies": {
-    "@types/decompress": "^4.2.7",
-    "@types/node": "20",
-    "axios": "^1.8.2",
-    "decompress": "^4.2.1",
-    "neostandard": "^0.12.1",
-    "tsup": "^8.4.0",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+  "homepage": "https://github.com/karinjs/node-pty",
+  "bugs": {
+    "url": "https://github.com/karinjs/node-pty/issues"
+  },
+  "keywords": [
+    "pty",
+    "tty",
+    "terminal",
+    "pseudoterminal",
+    "forkpty",
+    "openpty"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "install": "npx @karinjs/prebuild-install -r node --pkg_version=0.13.1 --pkg_name=node-pty-prebuilt-multiarch",
+    "pub": "npm publish --access public"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18.0.0 <25.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "tsdown": "^0.14.1",
+    "typescript": "^5.9.2"
   },
   "publishConfig": {
     "access": "public",

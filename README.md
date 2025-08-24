@@ -8,11 +8,11 @@
 
 - 🚀 极致轻量: 移除源代码,仅保留必要的预编译二进制文件
 - 🇨🇳 国内加速: 默认使用 npmmirror.com 镜像,无需额外配置
-- 💪 多架构支持: 支持主流操作系统和CPU架构
+- 💪 多架构支持: 支持主流操作系统和 CPU 架构
 - 🔧 开箱即用: 无需编译,支持多种包管理器
 
-> [!WARNING]  
-> 目前仅在 Windows Node.js 环境下完成测试。其他环境（Linux、macOS等）的兼容性需要用户自行验证。如遇到问题，欢迎反馈。
+> [!WARNING]
+> 目前仅在 Windows Node.js 环境下完成测试。其他环境（Linux、macOS 等）的兼容性需要用户自行验证。如遇到问题，欢迎反馈。
 
 ## 安装
 
@@ -88,50 +88,27 @@ npm install @homebridge/node-pty-prebuilt-multiarch:@karinjs/node-pty
 ## 使用示例
 
 ```typescript
-import * as os from 'node:os'
-import * as pty from '@karinjs/node-pty'
+import * as os from "node:os";
+import * as pty from "@karinjs/node-pty";
 
-async function run () {
-  // 可选: 检查并确保二进制文件与当前环境兼容
-  await pty.init()
-  
-  const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash'
+async function run() {
+  const shell = os.platform() === "win32" ? "powershell.exe" : "bash";
   const ptyProcess = pty.spawn(shell, [], {
-    name: 'xterm-color',
+    name: "xterm-color",
     cols: 80,
     rows: 30,
     cwd: process.env.HOME,
-    env: process.env
-  })
+    env: process.env,
+  });
 
   ptyProcess.onData((data) => {
-    process.stdout.write(data)
-  })
+    process.stdout.write(data);
+  });
 
-  ptyProcess.write('ls\r')
-  ptyProcess.resize(100, 40)
-  ptyProcess.write('ls\r')
+  ptyProcess.write("ls\r");
+  ptyProcess.resize(100, 40);
+  ptyProcess.write("ls\r");
 }
 
-run()
+run();
 ```
-
-## API
-
-### 基础 API
-
-本包支持 [@homebridge/node-pty-prebuilt-multiarch](https://github.com/homebridge/node-pty-prebuilt-multiarch) 的所有原有 API。
-
-### 扩展 API
-
-在原有基础上，我们新增了以下 API：
-
-#### init()
-
-`init()` 方法用于检查预编译二进制文件是否与当前 Node.js/Electron 环境兼容。该方法是可选的，主要用于以下场景：
-
-- 更换 Node.js 或 Electron 版本后，需要验证兼容性
-- 需要重新安装适配当前环境的二进制文件
-
-> 提示：如果不想调用 init() 方法，也可以直接运行 `npx pty` 来重新安装适配当前环境的二进制文件。
-

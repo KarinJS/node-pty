@@ -1,83 +1,57 @@
-import fs from 'node:fs'
-import axios from 'axios'
-import decompress from 'decompress'
-import { VERSION, NPM_PKG_NAME, _PKG_NAME } from './version'
-import path from 'node:path'
+/**
+ * Copyright (c) 2012-2015, Christopher Jeffrey, Peter Sunde (MIT License)
+ * Copyright (c) 2016, Daniel Imms (MIT License).
+ * Copyright (c) 2018, Microsoft Corporation (MIT License).
+ */
 
-const main = async () => {
-  const url = `https://registry.npmjs.org/${NPM_PKG_NAME}/${VERSION}`
-  const registry = await axios.get(url)
-  const { tarball } = registry.data.dist
+import { IPtyOpenOptions, IPtyForkOptions, IWindowsPtyForkOptions } from './interfaces'
+import { ptyPath } from './prebuild-file-path'
 
-  /** 下载 */
-  const response = await axios.get(tarball, { responseType: 'arraybuffer' })
-  const buffer = Buffer.from(response.data)
+import type { UnixTerminal } from './unixTerminal'
+import type { WindowsTerminal } from './windowsTerminal'
+import type { ArgvOrCommandLine, ITerminal } from './types'
 
-  /** 解压路径 */
-  const tmp = './tmp'
-  fs.mkdirSync(tmp, { recursive: true })
-  await decompress(buffer, tmp)
 
-  /** 解压后的pkg路径 */
-  const pkgPath = `${tmp}/package`
-  const dts = `${pkgPath}/typings/node-pty.d.ts`
-  const lib = `${pkgPath}/lib`
-
-  /** 修改node-pty.d中包名 */
-  const data = fs.readFileSync(dts, 'utf-8')
-  fs.writeFileSync(
-    path.resolve(lib, 'index.d.ts'),
-    data
-      .replace('@homebridge/node-pty-prebuilt-multiarch', _PKG_NAME)
-      .replace(new RegExp(`${_PKG_NAME}.*{.*`, 'g'), `${_PKG_NAME}' {
-  /**
-   * Initializes the pty module.
-   */
-  export function init (): Promise<void>
-`))
-
-  /**
-   * 递归删除lib文件夹下 后缀.map、 test.js后缀的
-   * @param dir 目录
-   */
-  const rm = (dir: string) => {
-    fs.readdirSync(dir).forEach(file => {
-      const filePath = path.resolve(dir, file)
-      if (fs.statSync(filePath).isDirectory()) {
-        rm(filePath)
-      } else {
-        if (file.endsWith('.map') || file.endsWith('.test.js')) {
-          fs.unlinkSync(filePath)
-        }
-      }
-    })
-  }
-
-  /**
-   * 递归复制
-   * @param src 源路径
-   * @param dest 目标路径
-   */
-  const cp = (src: string, dest: string) => {
-    fs.readdirSync(src).forEach(file => {
-      const srcPath = path.resolve(src, file)
-      const destPath = path.resolve(dest, file)
-      if (fs.statSync(srcPath).isDirectory()) {
-        fs.mkdirSync(destPath, { recursive: true })
-        cp(srcPath, destPath)
-        return
-      }
-
-      fs.copyFileSync(srcPath, destPath)
-    })
-  }
-
-  rm(lib)
-  const destLib = path.resolve(process.cwd(), 'lib')
-  fs.mkdirSync(destLib, { recursive: true })
-  cp(lib, destLib)
-  fs.rmdirSync(tmp, { recursive: true })
-  process.exit(0)
+let terminalCtor: typeof WindowsTerminal | typeof UnixTerminal
+if (process.platform === 'win32') {
+  terminalCtor = require('./windowsTerminal').WindowsTerminal
+} else {
+  terminalCtor = require('./unixTerminal').UnixTerminal
 }
 
-main()
+/**
+ * Forks a process as a pseudoterminal.
+ * @param file The file to launch.
+ * @param args The file's arguments as argv (string[]) or in a pre-escaped
+ * CommandLine format (string). Note that the CommandLine option is only
+ * available on Windows and is expected to be escaped properly.
+ * @param options The options of the terminal.
+ * @throws When the file passed to spawn with does not exists.
+ * @see CommandLineToArgvW https://msdn.microsoft.com/en-us/library/windows/desktop/bb776391(v=vs.85).aspx
+ * @see Parsing C++ Comamnd-Line Arguments https://msdn.microsoft.com/en-us/library/17w5ykft.aspx
+ * @see GetCommandLine https://msdn.microsoft.com/en-us/library/windows/desktop/ms683156.aspx
+ */
+export function spawn (file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
+  return new terminalCtor(file, args, opt)
+}
+
+/** @deprecated */
+export function fork (file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
+  return new terminalCtor(file, args, opt)
+}
+
+/** @deprecated */
+export function createTerminal (file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
+  return new terminalCtor(file, args, opt)
+}
+
+export function open (options: IPtyOpenOptions): ITerminal {
+  // @ts-ignore
+  return terminalCtor.open(options)
+}
+
+/**
+ * Expose the native API when not Windows, note that this is not public API and
+ * could be removed at any time.
+ */
+export const native = (process.platform !== 'win32' ? require(ptyPath || '../build/Release/pty.node') : null)
