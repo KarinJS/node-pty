@@ -15,3 +15,4 @@ prebuilds
 .vscode/ipch/
 .idea
 yarn.lock
+/dist
