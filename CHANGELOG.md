@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/KarinJS/node-pty/compare/v1.0.4...v1.1.0) (2025-08-24)
+
+
+### Features
+
+* 迁移 ([614a1e8](https://github.com/KarinJS/node-pty/commit/614a1e826310c835ea19217350ca830fb17ad964))
+
 ## [1.0.4](https://github.com/KarinJS/node-pty/compare/v1.0.3...v1.0.4) (2025-03-10)
 
 
