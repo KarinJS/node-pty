@@ -25,6 +25,14 @@ jobs:
         uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
 
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 设置 Node.js 版本
+          node-version: 20
+          # 设置 npm 源
+          registry-url: "https://registry.npmjs.org"
+
       - name: 设置 pnpm
         uses: pnpm/action-setup@v2
         with:
