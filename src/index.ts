@@ -4,16 +4,19 @@
  * Copyright (c) 2018, Microsoft Corporation (MIT License).
  */
 
-import { ITerminal, IPtyOpenOptions, IPtyForkOptions, IWindowsPtyForkOptions } from './interfaces';
-import { ArgvOrCommandLine } from './types';
-import { ptyPath } from './prebuild-file-path';
+import { IPtyOpenOptions, IPtyForkOptions, IWindowsPtyForkOptions } from './interfaces'
+import { ptyPath } from './prebuild-file-path'
+
+import type { UnixTerminal } from './unixTerminal'
+import type { WindowsTerminal } from './windowsTerminal'
+import type { ArgvOrCommandLine, ITerminal } from './types'
 
 
-let terminalCtor: any;
+let terminalCtor: typeof WindowsTerminal | typeof UnixTerminal
 if (process.platform === 'win32') {
-  terminalCtor = require('./windowsTerminal').WindowsTerminal;
+  terminalCtor = require('./windowsTerminal').WindowsTerminal
 } else {
-  terminalCtor = require('./unixTerminal').UnixTerminal;
+  terminalCtor = require('./unixTerminal').UnixTerminal
 }
 
 /**
@@ -28,26 +31,27 @@ if (process.platform === 'win32') {
  * @see Parsing C++ Comamnd-Line Arguments https://msdn.microsoft.com/en-us/library/17w5ykft.aspx
  * @see GetCommandLine https://msdn.microsoft.com/en-us/library/windows/desktop/ms683156.aspx
  */
-export function spawn(file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
-  return new terminalCtor(file, args, opt);
+export function spawn (file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
+  return new terminalCtor(file, args, opt)
 }
 
 /** @deprecated */
-export function fork(file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
-  return new terminalCtor(file, args, opt);
+export function fork (file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
+  return new terminalCtor(file, args, opt)
 }
 
 /** @deprecated */
-export function createTerminal(file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
-  return new terminalCtor(file, args, opt);
+export function createTerminal (file?: string, args?: ArgvOrCommandLine, opt?: IPtyForkOptions | IWindowsPtyForkOptions): ITerminal {
+  return new terminalCtor(file, args, opt)
 }
 
-export function open(options: IPtyOpenOptions): ITerminal {
-  return terminalCtor.open(options);
+export function open (options: IPtyOpenOptions): ITerminal {
+  // @ts-ignore
+  return terminalCtor.open(options)
 }
 
 /**
  * Expose the native API when not Windows, note that this is not public API and
  * could be removed at any time.
  */
-export const native = (process.platform !== 'win32' ? require(ptyPath || '../build/Release/pty.node') : null);
+export const native = (process.platform !== 'win32' ? require(ptyPath || '../build/Release/pty.node') : null)

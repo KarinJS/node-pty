@@ -1,0 +1,42 @@
+name: release
+on:
+  push:
+    # 监听 main 分支的 push 事件
+    branches:
+      - main
+# 赋予 release-please-action 权限
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  # 设置 release-please 任务
+  release-please:
+    # 设置任务运行环境为 ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      # 使用 release-please-action 动作来自动创建发布 PR
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          # 设置发布类型为 node
+          release-type: node
+
+      - name: 检出代码
+        uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: true
+
+      - name: 编译
+        run: pnpm run build
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: 发布
+        run: pnpm run pub
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ steps.release.outputs.release_created }}
