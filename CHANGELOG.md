@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/KarinJS/node-pty/compare/v1.1.2...v1.1.3) (2025-08-24)
+
+
+### Bug Fixes
+
+* 炸了老铁 ([4887f07](https://github.com/KarinJS/node-pty/commit/4887f07393b939f66e49ef4cab41e4bea5577fb8))
+
 ## [1.1.2](https://github.com/KarinJS/node-pty/compare/v1.1.1...v1.1.2) (2025-08-24)
 
 
