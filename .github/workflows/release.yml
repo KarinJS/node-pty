@@ -36,7 +36,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
 
       - name: 发布
-        run: pnpm run pub
+        run: npm run pub
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}
